@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour, MotorCycle_Input.IPlayerActions
     [SerializeField] public float maxSpeed;
     [SerializeField] public float acceleration;
     [SerializeField] public float deceleration;
+    [SerializeField] public float turnSpeed = 5f;
 
     //movement variables
     private bool isAccelerating = false;
@@ -64,6 +65,9 @@ public class PlayerMovement : MonoBehaviour, MotorCycle_Input.IPlayerActions
         //Need to figure out acceleration/decceleration later
         Vector3 moveVector = transform.TransformDirection(playerMoveDirection) * maxSpeed;
 
+        //UP: (0, 1, 0)
+        transform.Rotate(Vector3.up * turningDir * Time.deltaTime * turnSpeed);
+
         rb.linearVelocity = new Vector3(moveVector.x, rb.linearVelocity.y, moveVector.z);
     }
 
@@ -88,8 +92,9 @@ public class PlayerMovement : MonoBehaviour, MotorCycle_Input.IPlayerActions
 
     public void OnMovement(InputAction.CallbackContext context)
     {
+        //This is a temp input function, we will reconfigure this later...
         Vector3 moveDir = Vector3.zero;
-        moveDir.x = context.ReadValue<Vector2>().x;
+        //moveDir.x = context.ReadValue<Vector2>().x;
         moveDir.z = context.ReadValue<Vector2>().y;
 
         playerMoveDirection = moveDir;
