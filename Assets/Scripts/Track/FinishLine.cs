@@ -1,16 +1,21 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class FinishLine : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private RaceManager _raceManager;
+    public void Init(RaceManager raceManager)
     {
-        
+        _raceManager = raceManager;
     }
-
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.gameObject.tag == "Player")
+        {
+            if (_raceManager.isRaceOngoing)
+            {
+                _raceManager.CompleteLap();
+            }
+        }
     }
 }

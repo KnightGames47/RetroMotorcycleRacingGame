@@ -1,0 +1,21 @@
+using UnityEngine;
+
+public class MainMenu_GameState : IGameState
+{
+    private MainMenu_Presenter _presenter;
+    public void EnterState()
+    {
+        _presenter = new MainMenu_Presenter();
+        _presenter.Init();
+    }
+
+    public void ExitState()
+    {
+        _presenter.Cleanup();
+    }
+
+    public void ProcessUpdate()
+    {
+        //throw new System.NotImplementedException();
+    }
+}
