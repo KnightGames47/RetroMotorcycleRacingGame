@@ -2,15 +2,7 @@ using UnityEngine;
 
 public class RacePosition : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //This will have the racing position for the player, but we need to have a few things set up first.
+    //If we mark things as NPC and then have them calculate based on where they are on the spline, we can decide 
+    //What position the player is in relation to those...
 }

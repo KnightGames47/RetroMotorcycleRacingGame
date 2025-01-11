@@ -10,7 +10,10 @@ public class RaceManager
     private StartLine startLine;
     private FinishLine finishLine;
     private  CheckPoint[] checkPoints;
-    private int totalLaps = 1;
+    public int totalLaps { get; private set; } = 2;
+    public GameObject player { get; private set; }
+    private LapCounter _lapCounter;
+    
     public CheckPoint currentCheckpoint { get; private set; }
 
     public bool isRaceOngoing { get; private set; } = false;
@@ -31,12 +34,17 @@ public class RaceManager
         finishLine = Object.FindFirstObjectByType<FinishLine>();
         checkPoints = Resources.FindObjectsOfTypeAll(typeof(CheckPoint)) as CheckPoint[];
 
+        player = GameObject.FindGameObjectWithTag("Player");
+        _lapCounter = Object.FindFirstObjectByType<LapCounter>();
+
         startLine.Init(this);
         finishLine.Init(this);
         foreach(var checkPoint in checkPoints)
         {
             checkPoint.Init(this);
         }
+
+        _lapCounter.SetLapCounter(currentLap, totalLaps);
 
         Debug.Log("race initialized");
 
@@ -51,6 +59,7 @@ public class RaceManager
     public void StartRace()
     {
         //For now, this is going to be triggered by crossing the start line.
+        //We want this to eventually be done by a count down timer.
         raceStartTime = Time.time;
         isRaceOngoing = true;
         currentLap = 1;
@@ -63,7 +72,7 @@ public class RaceManager
         //should do a checkpoint check to make sure this is being set.
         if (!isRaceOngoing) return;
 
-        OnLapComplete?.Invoke();
+        
         Debug.Log($"Lap {currentLap} completed!");
 
         if(currentLap >= totalLaps)
@@ -73,6 +82,8 @@ public class RaceManager
         else
         {
             currentLap++;
+            OnLapComplete?.Invoke();
+            _lapCounter.SetLapCounter(currentLap, totalLaps);
         }
     }
 

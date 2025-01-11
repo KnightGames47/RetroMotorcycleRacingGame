@@ -1,16 +1,21 @@
+using TMPro;
 using UnityEngine;
 
 public class Speedometer : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private GameObject player;
+    
+    private TMP_Text speedText;
+
+    private void OnEnable()
     {
-        
+        speedText = GetComponent<TMP_Text>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        //we will need to work on this value to get the right speed...
+        //Need to set up the player acceleration and deceleration for this...
+        speedText.text = player.GetComponent<Rigidbody>().linearVelocity.ToString();   
     }
 }

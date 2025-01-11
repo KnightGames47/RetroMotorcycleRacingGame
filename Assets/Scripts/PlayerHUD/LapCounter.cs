@@ -1,16 +1,19 @@
+using TMPro;
 using UnityEngine;
 
 public class LapCounter : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private TMP_Text counterText;
+    private RaceManager _raceManager;
+
+    private void OnEnable()
     {
-        
+        counterText = GetComponent<TMP_Text>();
     }
 
-    // Update is called once per frame
-    void Update()
+
+    public void SetLapCounter(int currentLap, int totalLaps)
     {
-        
+        counterText.text = $"{currentLap} / {totalLaps}";
     }
 }
