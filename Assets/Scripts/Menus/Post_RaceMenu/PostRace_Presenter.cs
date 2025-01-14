@@ -18,9 +18,8 @@ public class PostRace_Presenter
 
     public void Cleanup()
     {
-        //This stuff is not needed, since we are moving scenes..
-        //_view.DisablePostRacePanel();
-        //_view.ReleaseAllButtonListeners();
+        _view.DisablePostRacePanel();
+        _view.ReleaseAllButtonListeners();
     }
 
     private void OnRetryClicked()
