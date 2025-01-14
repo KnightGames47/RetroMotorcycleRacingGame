@@ -10,7 +10,7 @@ public class RaceManager
     private StartLine startLine;
     private FinishLine finishLine;
     private  CheckPoint[] checkPoints;
-    public int totalLaps { get; private set; } = 2;
+    public int totalLaps { get; private set; } = 1;
     public GameObject player { get; private set; }
     private LapCounter _lapCounter;
     
@@ -47,8 +47,6 @@ public class RaceManager
         _lapCounter.SetLapCounter(currentLap, totalLaps);
 
         Debug.Log("race initialized");
-
-        //TODO: Might want to start a loading screen here for the set up...
     }
 
     public void CleanUp()
@@ -93,6 +91,9 @@ public class RaceManager
         raceTime = Time.time - raceStartTime;
         OnRaceFinish?.Invoke();
         Debug.Log($"Race ended! Total time: {raceTime} seconds");
+
+        //Here we are going to show the post race screen
+        GameStateManager.Instance.TransitionToState(new PostRace_GameState(this));
     }
 
     public void SetCurrentCheckpoint(CheckPoint checkPoint)

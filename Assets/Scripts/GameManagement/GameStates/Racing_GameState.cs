@@ -19,10 +19,12 @@ public class Racing_GameState : IGameState
 
     public async void EnterState()
     {
-        //await SceneManager.LoadSceneAsync(sceneToOpen);//uncomment for production...
-        //Need to put something for a loading screen here...
+        GameStateManager.Instance.loadingScreen.EnableLoadScreen();
+        await SceneManager.LoadSceneAsync(sceneToOpen);
+        
         raceManager = new RaceManager();
         raceManager.Init();
+        GameStateManager.Instance.loadingScreen.DisableLoadScreen();
     }
 
     public void ExitState()

@@ -6,30 +6,24 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour, MotorCycle_Input.IPlayerActions
 {
     [Header("Movement Settings")]
-    [SerializeField] public float maxSpeed;
-    [SerializeField] public float acceleration;
-    [SerializeField] public float deceleration;
-    [SerializeField] public float turnSpeed = 5f;
+    [SerializeField] public float acceleration = 500f;
+    [SerializeField] public float breakingForce = 300f;
+    [SerializeField] public float maxTurningAngle = 30f;
+
+    [SerializeField] WheelCollider frontWheel;
+    [SerializeField] WheelCollider backWheel;
+    [SerializeField] Transform steeringModels;
 
     //movement variables
-    private bool isAccelerating = false;
-    private bool isDecelerating = false;
-    private float curSpeed = 0f;
-    private float turningDir = 0f;
-    private Vector3 playerMoveDirection;
+    private float curAcceleration = 0f;
+    private float curBreakForce = 0f;
+    private float curTurningAngle = 0f;
 
     //General references
     private MotorCycle_Input motorCycleInput;
-    private Rigidbody rb;
-    private Collider collider;
-    private bool isGrounded;
+    //private Rigidbody rb;
 
     #region Unity Callbacks-------------------------------------------------------------------------
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody>();
-        collider = GetComponent<Collider>();
-    }
     public void OnEnable()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -62,13 +56,27 @@ public class PlayerMovement : MonoBehaviour, MotorCycle_Input.IPlayerActions
     #region Helper Functions------------------------------------------------------------------------
     private void ProcessMovement()
     {
-        //Need to figure out acceleration/decceleration later
-        Vector3 moveVector = transform.TransformDirection(playerMoveDirection) * maxSpeed;
+        //apply acceleration to back wheel
+        backWheel.motorTorque = curAcceleration;
 
-        //UP: (0, 1, 0)
-        transform.Rotate(Vector3.up * turningDir * Time.deltaTime * turnSpeed);
+        //apply breakforce if there is any to all wheels
+        frontWheel.brakeTorque = curBreakForce;
+        backWheel.brakeTorque = curBreakForce;
 
-        rb.linearVelocity = new Vector3(moveVector.x, rb.linearVelocity.y, moveVector.z);
+        //steering
+        frontWheel.steerAngle = curTurningAngle;
+
+        UpdateSteeringModels(frontWheel, steeringModels);
+    }
+
+    private void UpdateSteeringModels(WheelCollider col, Transform steerModel)
+    {
+        Vector3 pos;
+        Quaternion rot;
+        col.GetWorldPose(out pos, out rot);
+
+        //steerModel.position = pos;
+        //steerModel.rotation = rot;
     }
 
     #endregion
@@ -76,28 +84,32 @@ public class PlayerMovement : MonoBehaviour, MotorCycle_Input.IPlayerActions
     #region Input Callbacks-------------------------------------------------------------------------
     public void OnAccelerate(InputAction.CallbackContext context)
     {
-        //Debug.Log("Accelerating");
+        if(context.performed)
+            curAcceleration = acceleration;
+        else curAcceleration = 0f;
     }
 
     public void OnBrake(InputAction.CallbackContext context)
     {
-        //throw new System.NotImplementedException();
+        if (context.performed)
+            curBreakForce = breakingForce;
+        else curBreakForce = 0f;
     }
 
     public void OnTurning(InputAction.CallbackContext context)
     {
-        turningDir = context.ReadValue<float>();
-        //Debug.Log("Tuning dir: " + turningDir);
+        curTurningAngle = maxTurningAngle * context.ReadValue<float>();
     }
 
+    //TODO: Need to make a reverse part, that is very slow, and makes sure that you don't have any acceleration or forward momentum...
+
+    /// <summary>
+    /// DEPRECIATED DO NOT USE
+    /// </summary>
+    /// <param name="context"></param>
     public void OnMovement(InputAction.CallbackContext context)
     {
-        //This is a temp input function, we will reconfigure this later...
-        Vector3 moveDir = Vector3.zero;
-        //moveDir.x = context.ReadValue<Vector2>().x;
-        moveDir.z = context.ReadValue<Vector2>().y;
-
-        playerMoveDirection = moveDir;
+        
     }
     #endregion
 }

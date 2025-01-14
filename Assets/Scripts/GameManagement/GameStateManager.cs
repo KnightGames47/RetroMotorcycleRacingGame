@@ -8,6 +8,8 @@ public class GameStateManager : MonoBehaviour
 
     public static GameStateManager Instance { get; private set; }
 
+    public LoadingScreen_Presenter loadingScreen;
+
     private void Awake()
     {
         //This is going to be the singleton that controls the states of the game. 
@@ -18,13 +20,16 @@ public class GameStateManager : MonoBehaviour
             return;
         }
 
+        loadingScreen = new LoadingScreen_Presenter();
+        loadingScreen.Init();
         Instance = this;
+        DontDestroyOnLoad(this);
     }
 
     private void Start()
     {
-        //TransitionToState(new MainMenu_GameState());//For Production
-        TransitionToState(new Racing_GameState("Track_01_Scene"));//For Testing
+        TransitionToState(new MainMenu_GameState());//For Production
+        //TransitionToState(new Racing_GameState("Track_01_Scene"));//For Testing
     }
 
     private void Update()
@@ -35,6 +40,7 @@ public class GameStateManager : MonoBehaviour
     private void OnApplicationQuit()
     {
         //We want to release all of the set up here...
+        Application.Quit();
     }
 
     /// <summary>
