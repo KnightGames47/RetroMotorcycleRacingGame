@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class Settings_GameState : IGameState
+public class CreditsMenu_GameState : IGameState
 {
-    private SettingsMenu_Presenter _presenter;
+    private CreditsMenu_Presenter _presenter;
     public void EnterState()
     {
-        _presenter = new SettingsMenu_Presenter();
+        _presenter = new CreditsMenu_Presenter();
         _presenter.Init();
     }
 

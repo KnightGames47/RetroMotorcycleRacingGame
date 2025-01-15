@@ -29,17 +29,17 @@ public class MainMenu_Presenter
 
     private void OnCustomizeClicked()
     {
-        //Open customization menu
+        GameStateManager.Instance.TransitionToState(new Customization_GameState());
     }
 
     private void OnSettingsClicked()
     {
-        //TODO: Open the settings menu
+        GameStateManager.Instance.TransitionToState(new Settings_GameState());
     }
 
     private void OnCreditsClicked()
     {
-        //TODO: Open the credits screen
+        GameStateManager.Instance.TransitionToState(new CreditsMenu_GameState());
     }
 
     private void OnQuitClicked()

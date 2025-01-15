@@ -25,7 +25,6 @@ public class PostRace_Presenter
     private void OnRetryClicked()
     {
         GameStateManager.Instance.loadingScreen.EnableLoadScreen();
-        //This will reload the scene as if it is new.
         GameStateManager.Instance.TransitionToState(new Racing_GameState(SceneManager.GetActiveScene().name));
         GameStateManager.Instance.loadingScreen.DisableLoadScreen();
     }
