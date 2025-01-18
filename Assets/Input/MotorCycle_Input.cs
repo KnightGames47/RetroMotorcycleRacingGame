@@ -62,6 +62,15 @@ public partial class @MotorCycle_Input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""239dc703-69c8-4344-a672-282b793fbe42"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -218,6 +227,17 @@ public partial class @MotorCycle_Input: IInputActionCollection2, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d21c944c-d4d8-412f-ae8c-b3678d0650c2"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -230,6 +250,7 @@ public partial class @MotorCycle_Input: IInputActionCollection2, IDisposable
         m_Player_Brake = m_Player.FindAction("Brake", throwIfNotFound: true);
         m_Player_Turning = m_Player.FindAction("Turning", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
     }
 
     ~@MotorCycle_Input()
@@ -300,6 +321,7 @@ public partial class @MotorCycle_Input: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Brake;
     private readonly InputAction m_Player_Turning;
     private readonly InputAction m_Player_Movement;
+    private readonly InputAction m_Player_Pause;
     public struct PlayerActions
     {
         private @MotorCycle_Input m_Wrapper;
@@ -308,6 +330,7 @@ public partial class @MotorCycle_Input: IInputActionCollection2, IDisposable
         public InputAction @Brake => m_Wrapper.m_Player_Brake;
         public InputAction @Turning => m_Wrapper.m_Player_Turning;
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -329,6 +352,9 @@ public partial class @MotorCycle_Input: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -345,6 +371,9 @@ public partial class @MotorCycle_Input: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -368,5 +397,6 @@ public partial class @MotorCycle_Input: IInputActionCollection2, IDisposable
         void OnBrake(InputAction.CallbackContext context);
         void OnTurning(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

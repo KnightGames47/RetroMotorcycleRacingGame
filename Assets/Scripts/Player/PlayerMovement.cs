@@ -101,6 +101,12 @@ public class PlayerMovement : MonoBehaviour, MotorCycle_Input.IPlayerActions
         curTurningAngle = maxTurningAngle * context.ReadValue<float>();
     }
 
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if(GameStateManager.Instance.currentState.StateType == GameStates.RACING)
+            GameStateManager.Instance.TransitionToState(new PauseMenu_GameState(GameStateManager.Instance.currentState as Racing_GameState));
+    }
+
     //TODO: Need to make a reverse part, that is very slow, and makes sure that you don't have any acceleration or forward momentum...
 
     /// <summary>
@@ -111,5 +117,7 @@ public class PlayerMovement : MonoBehaviour, MotorCycle_Input.IPlayerActions
     {
         
     }
+
+    
     #endregion
 }

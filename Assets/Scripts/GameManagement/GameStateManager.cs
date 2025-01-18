@@ -2,6 +2,18 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum GameStates
+{
+    CREDITS,
+    CUSTOMIZATION,
+    LEVEL_SELECT,
+    MAIN_MENU,
+    PAUSE,
+    POST_RACE,
+    RACING,
+    SETTINGS
+}
+
 public class GameStateManager : MonoBehaviour
 {
     public IGameState currentState {  get; private set; }

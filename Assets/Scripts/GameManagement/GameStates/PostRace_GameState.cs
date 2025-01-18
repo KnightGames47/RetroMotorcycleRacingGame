@@ -9,6 +9,9 @@ public class PostRace_GameState : IGameState
     {
         raceManager = manager;
     }
+
+    public GameStates StateType => GameStates.POST_RACE;
+
     public void EnterState()
     {
         //We want to show the post race stats...

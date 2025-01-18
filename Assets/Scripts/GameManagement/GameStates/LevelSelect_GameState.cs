@@ -3,6 +3,9 @@ using UnityEngine;
 public class LevelSelect_GameState : IGameState
 {
     private LevelSelection_Presenter _presenter;
+
+    public GameStates StateType => GameStates.LEVEL_SELECT;
+
     //here we also create an instance of the model with the proper data - I want to get this data froma scriptable object
     //    This way we can adjust the different map settings on the fly.
     public void EnterState()

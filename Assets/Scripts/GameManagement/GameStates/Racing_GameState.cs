@@ -7,6 +7,8 @@ public class Racing_GameState : IGameState
 {
     public RaceManager raceManager {  get; private set; }
 
+    public GameStates StateType => GameStates.RACING;
+
     private string sceneToOpen;
     private UnityEvent sceneLoaded;
 
