@@ -18,7 +18,7 @@ public class PostRace_GameState : IGameState
         _presenter = new PostRace_Presenter();
         _presenter.Init();
 
-        Cursor.lockState = CursorLockMode.None;
+        Cursor.lockState = CursorLockMode.Confined;
         //TODO: we also need to disable the player input here...
 
     }

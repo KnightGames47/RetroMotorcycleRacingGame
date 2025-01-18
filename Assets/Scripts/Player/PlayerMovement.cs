@@ -26,7 +26,6 @@ public class PlayerMovement : MonoBehaviour, MotorCycle_Input.IPlayerActions
     #region Unity Callbacks-------------------------------------------------------------------------
     public void OnEnable()
     {
-        Cursor.lockState = CursorLockMode.Locked;
         if (motorCycleInput == null)
         {
             motorCycleInput = new MotorCycle_Input();
@@ -103,8 +102,12 @@ public class PlayerMovement : MonoBehaviour, MotorCycle_Input.IPlayerActions
 
     public void OnPause(InputAction.CallbackContext context)
     {
-        if(GameStateManager.Instance.currentState.StateType == GameStates.RACING)
-            GameStateManager.Instance.TransitionToState(new PauseMenu_GameState(GameStateManager.Instance.currentState as Racing_GameState));
+        if (GameStateManager.Instance.currentState.StateType == GameStates.RACING
+            && GameStateManager.Instance.pauseState == null)
+            GameStateManager.Instance.EnterPauseState();
+        else if(GameStateManager.Instance.currentState.StateType == GameStates.RACING
+            && GameStateManager.Instance.pauseState != null)
+            GameStateManager.Instance.ExitPauseState();
     }
 
     //TODO: Need to make a reverse part, that is very slow, and makes sure that you don't have any acceleration or forward momentum...

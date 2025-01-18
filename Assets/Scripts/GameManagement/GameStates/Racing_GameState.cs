@@ -23,7 +23,7 @@ public class Racing_GameState : IGameState
     {
         GameStateManager.Instance.loadingScreen.EnableLoadScreen();
         await SceneManager.LoadSceneAsync(sceneToOpen);
-        
+        Cursor.lockState = CursorLockMode.Locked;
         raceManager = new RaceManager();
         raceManager.Init();
         GameStateManager.Instance.loadingScreen.DisableLoadScreen();

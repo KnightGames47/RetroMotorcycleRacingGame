@@ -22,6 +22,8 @@ public class GameStateManager : MonoBehaviour
 
     public LoadingScreen_Presenter loadingScreen;
 
+    public PauseMenu_GameState pauseState { get; private set; }
+
     private void Awake()
     {
         //This is going to be the singleton that controls the states of the game. 
@@ -66,5 +68,17 @@ public class GameStateManager : MonoBehaviour
         currentState?.ExitState();
         currentState = nextState;
         currentState?.EnterState();
+    }
+
+    public void EnterPauseState()
+    {
+        pauseState = new PauseMenu_GameState();
+        pauseState?.EnterState();
+    }
+
+    public void ExitPauseState()
+    {
+        pauseState?.ExitState();
+        pauseState = null;
     }
 }

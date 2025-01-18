@@ -10,6 +10,7 @@ public class MainMenu_GameState : IGameState
     {
         _presenter = new MainMenu_Presenter();
         _presenter.Init();
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     public void ExitState()

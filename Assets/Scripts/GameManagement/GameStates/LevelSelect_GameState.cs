@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelSelect_GameState : IGameState
 {
@@ -8,10 +9,14 @@ public class LevelSelect_GameState : IGameState
 
     //here we also create an instance of the model with the proper data - I want to get this data froma scriptable object
     //    This way we can adjust the different map settings on the fly.
-    public void EnterState()
+    public async void EnterState()
     {
+        GameStateManager.Instance.loadingScreen.EnableLoadScreen();
+        await SceneManager.LoadSceneAsync("MenuScene");
         _presenter = new LevelSelection_Presenter();
         _presenter.Init();
+        Cursor.lockState = CursorLockMode.Confined;
+        GameStateManager.Instance.loadingScreen.DisableLoadScreen();
     }
 
     public void ExitState()
