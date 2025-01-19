@@ -21,12 +21,13 @@ public class Racing_GameState : IGameState
 
     public async void EnterState()
     {
-        GameStateManager.Instance.loadingScreen.EnableLoadScreen();
-        await SceneManager.LoadSceneAsync(sceneToOpen);
+        GameStateManager.Instance?.loadingScreen.EnableLoadScreen();
+        if(SceneManager.GetActiveScene().name != sceneToOpen) 
+            await SceneManager.LoadSceneAsync(sceneToOpen);
         Cursor.lockState = CursorLockMode.Locked;
         raceManager = new RaceManager();
         raceManager.Init();
-        GameStateManager.Instance.loadingScreen.DisableLoadScreen();
+        GameStateManager.Instance?.loadingScreen.DisableLoadScreen();
     }
 
     public void ExitState()
