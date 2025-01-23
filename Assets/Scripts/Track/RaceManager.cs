@@ -93,7 +93,7 @@ public class RaceManager
         Debug.Log($"Race ended! Total time: {raceTime} seconds");
 
         //Here we are going to show the post race screen
-        GameStateManager.Instance.TransitionToState(new PostRace_GameState(this));
+        GameStateManager.Instance?.TransitionToState(new PostRace_GameState(this));
     }
 
     public void SetCurrentCheckpoint(CheckPoint checkPoint)

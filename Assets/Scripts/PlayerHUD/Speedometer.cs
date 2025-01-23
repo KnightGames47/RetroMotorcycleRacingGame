@@ -16,6 +16,6 @@ public class Speedometer : MonoBehaviour
     {
         //we will need to work on this value to get the right speed...
         //Need to set up the player acceleration and deceleration for this...
-        speedText.text = player.GetComponent<Rigidbody>().linearVelocity.ToString();   
+        speedText.text = ((int)player.GetComponent<Rigidbody>().linearVelocity.z).ToString();   
     }
 }
