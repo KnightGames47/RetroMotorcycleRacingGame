@@ -21,6 +21,7 @@ public class MotorcycleController : MonoBehaviour, MotorCycle_Input.IPlayerActio
 
     [Header("General")]
     [SerializeField] public GameObject playerModel;
+    [SerializeField] public GameObject orientation;
 
     //movement variables
     private float curAcceleration = 0f;
@@ -48,11 +49,6 @@ public class MotorcycleController : MonoBehaviour, MotorCycle_Input.IPlayerActio
     {
         motorCycleInput.Player.Disable();
     }
-
-    private void Update()
-    {
-        HandleLean();
-    }
     
     private void FixedUpdate()
     {
@@ -61,6 +57,8 @@ public class MotorcycleController : MonoBehaviour, MotorCycle_Input.IPlayerActio
         Brake();
 
         Steer();
+
+        HandleLean();
     }
 
     #endregion
@@ -123,6 +121,7 @@ public class MotorcycleController : MonoBehaviour, MotorCycle_Input.IPlayerActio
         float yTurnAngle = rb.linearVelocity.x * turningMod;
 
         playerModel.transform.rotation = Quaternion.Euler(0, yTurnAngle, leanAngle);
+        orientation.transform.rotation = Quaternion.Euler(0, yTurnAngle, 0);
     }
     #endregion
 
