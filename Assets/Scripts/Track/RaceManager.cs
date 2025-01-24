@@ -7,7 +7,8 @@ using UnityEngine.Events;
 
 public class RaceManager
 {
-    private StartLine startLine;
+    private CountDownTimer _countdownTimer;
+    //private StartLine startLine;
     private FinishLine finishLine;
     private  CheckPoint[] checkPoints;
     public int totalLaps { get; private set; } = 1;
@@ -30,14 +31,15 @@ public class RaceManager
 
     public void Init()
     {
-        startLine = Object.FindFirstObjectByType<StartLine>();
+        _countdownTimer = Object.FindFirstObjectByType<CountDownTimer>();
+        //startLine = Object.FindFirstObjectByType<StartLine>();
         finishLine = Object.FindFirstObjectByType<FinishLine>();
         checkPoints = Resources.FindObjectsOfTypeAll(typeof(CheckPoint)) as CheckPoint[];
 
         player = GameObject.FindGameObjectWithTag("Player");
         _lapCounter = Object.FindFirstObjectByType<LapCounter>();
 
-        startLine.Init(this);
+        //startLine.Init(this);
         finishLine.Init(this);
         foreach(var checkPoint in checkPoints)
         {
@@ -47,6 +49,9 @@ public class RaceManager
         _lapCounter.SetLapCounter(currentLap, totalLaps);
 
         Debug.Log("race initialized");
+        _countdownTimer.StartRace += StartRace;
+        _countdownTimer.StartCountDown();
+        //we want to start the race count down here
     }
 
     public void CleanUp()
@@ -62,6 +67,7 @@ public class RaceManager
         isRaceOngoing = true;
         currentLap = 1;
         OnRaceStart?.Invoke();
+        player.GetComponent<MotorcycleController>().EnablePlayerControls();
         Debug.Log("Starting Race");
     }
 

@@ -41,7 +41,7 @@ public class MotorcycleController : MonoBehaviour, MotorCycle_Input.IPlayerActio
             motorCycleInput.Player.SetCallbacks(this);//We are hooking up the callbacks from the input to the ones here.
         }
 
-        motorCycleInput.Player.Enable();
+        //motorCycleInput.Player.Enable();
     }
 
     private void OnDisable()
@@ -63,6 +63,18 @@ public class MotorcycleController : MonoBehaviour, MotorCycle_Input.IPlayerActio
         Steer();
     }
 
+    #endregion
+
+    #region Public Helpers-------------------------------------------------------------
+    public void EnablePlayerControls()
+    {
+        motorCycleInput.Player.Enable();
+    }
+
+    public void DisablePlayerControls()
+    {
+        motorCycleInput.Player.Disable();
+    }
     #endregion
 
     #region Helper Functions------------------------------------------------------------------------
